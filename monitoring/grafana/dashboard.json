@@ -1,0 +1,19 @@
+{
+    "dashboard": {
+      "id": null,
+      "title": "MyApp Dashboard",
+      "panels": [
+        {
+          "type": "graph",
+          "title": "CPU Usage",
+          "targets": [
+            {
+              "expr": "rate(container_cpu_usage_seconds_total{container_name='myapp'}[1m])",
+              "format": "time_series"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  
