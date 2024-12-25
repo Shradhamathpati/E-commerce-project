@@ -3,20 +3,20 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'  // ID of your Jenkins Docker credentials
-        DOCKER_IMAGE = 'syedssaad/myapp:latest'  // Replace with your Docker Hub username and image name
+        DOCKER_IMAGE = 'shradhamathpati/myapp:latest'  // Replace with your Docker Hub username and image name
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout code from the repository
-                git url: 'https://github.com/SyedShahMohammedSaadullahHussaini/ecommerce-devops-project.git', branch: 'main'
+                git url: 'https://github.com/Shradhamathpati/E-commerce-project.git', branch: 'main'
             }
         }
 
        
-    stages {
-        stage('Build') {
+       stages {
+           stage('Build') {
             steps {
                 bat 'mvn clean package'
             }
