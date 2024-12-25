@@ -14,12 +14,20 @@ pipeline {
             }
         }
 
+        pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.8.6' // Name must match the one in Global Tool Configuration
+    }
+    stages {
         stage('Build') {
             steps {
-                // Build the application using Maven
-                bat 'mvn clean package'
+                sh 'mvn clean package'
             }
         }
+    }
+}
+
 
         stage('Test') {
             steps {
