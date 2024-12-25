@@ -49,7 +49,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'shradha', passwordVariable: 'shradhamat@12')]) {
                         bat """
                         echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
-                        docker push syedssaad/myapp:latest
+                        docker push shradhamathpati/myapp:latest
                         """
                     }
                 }
