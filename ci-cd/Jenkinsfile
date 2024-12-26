@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'syedssaad/myapp:latest'
+        DOCKER_IMAGE = 'shradhamathpati/myapp:latest'
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout code from the repository
-                git url: 'https://github.com/SyedShahMohammedSaadullahHussaini/ecommerce-devops-project.git'
+                git url: 'https://github.com/Shradhamathpati/E-commerce-project.git'
             }
         }
 
@@ -37,7 +37,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 // Push Docker image to Docker Hub
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'shradhamathpati', passwordVariable: 'Shradhama@12')]) {
                     bat 'echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USERNAME% --password-stdin'
                     bat 'docker push %DOCKER_IMAGE%'
                 }
