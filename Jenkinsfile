@@ -17,21 +17,21 @@ pipeline {
         stage('Build') {
             steps {
                 // Run Maven build
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
         stage('Test') {
             steps {
                 // Run automated tests
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 // Build Docker image
-                sh "docker build -t ${DOCKER_IMAGE} ."
+                bat "docker build -t ${DOCKER_IMAGE} ."
             }
         }
 
@@ -40,7 +40,7 @@ pipeline {
                 script {
                     // Using credentials to log in to Docker Hub
                     withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'shradhamathpati', passwordVariable: 'shradhamat@12')]) {
-                        sh """
+                        bat """
                         echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
                         docker push ${DOCKER_IMAGE}
                         """
@@ -52,8 +52,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 // Deploy the application to Kubernetes
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
+                bat 'kubectl apply -f k8s/deployment.yaml'
+                bat 'kubectl apply -f k8s/service.yaml'
             }
         }
     }
