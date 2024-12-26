@@ -6,6 +6,10 @@ pipeline {
         DOCKER_IMAGE = 'shradhamathpati/myapp:latest'  // Replace with your Docker Hub username and image name
     }
 
+    tools {
+        maven 'Maven 3.8.6'  // Ensure this matches the Maven version configured in Jenkins
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -17,21 +21,27 @@ pipeline {
         stage('Build') {
             steps {
                 // Run Maven build
-                bat 'mvn clean package'
+                script {
+                    bat 'mvn clean package'
+                }
             }
         }
 
         stage('Test') {
             steps {
                 // Run automated tests
-                bat 'mvn test'
+                script {
+                    bat 'mvn test'
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 // Build Docker image
-                bat "docker build -t ${DOCKER_IMAGE} ."
+                script {
+                    bat "docker build -t ${DOCKER_IMAGE} ."
+                }
             }
         }
 
@@ -39,7 +49,7 @@ pipeline {
             steps {
                 script {
                     // Using credentials to log in to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'shradhamathpati', passwordVariable: 'shradhamat@12')]) {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         bat """
                         echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
                         docker push ${DOCKER_IMAGE}
@@ -52,8 +62,10 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 // Deploy the application to Kubernetes
-                bat 'kubectl apply -f k8s/deployment.yaml'
-                bat 'kubectl apply -f k8s/service.yaml'
+                script {
+                    bat 'kubectl apply -f k8s/deployment.yaml'
+                    bat 'kubectl apply -f k8s/service.yaml'
+                }
             }
         }
     }
